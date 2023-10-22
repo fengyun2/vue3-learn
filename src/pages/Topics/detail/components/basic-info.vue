@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
+import {DATE_TIME_FORMAT as IDATE_TIME_FORMAT} from '../../../constant/const'
 
 interface Topic {
   id: string;
@@ -19,9 +20,10 @@ interface Topic {
   top?: boolean;
 }
 
+const DATE_TIME_FORMAT = ref(IDATE_TIME_FORMAT)
 const formSize = ref("default");
 const ruleFormRef = ref<FormInstance>();
-const ruleForm = defineModel<Topic>();
+const ruleForm = defineModel<Topic>({ default: {} });
 const rules = reactive<FormRules<Topic>>({
   title: [{ required: true, message: "请输入标题" }],
 });
@@ -58,6 +60,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
     </el-form-item>
     <el-form-item label="内容" prop="content">
       <el-input v-model="ruleForm.content" type="textarea" />
+    </el-form-item>
+    <el-form-item label="创建时间" prop="create_at">
+      <el-date-picker v-model="ruleForm.create_at" type="datetime" :format="DATE_TIME_FORMAT" :value-format="DATE_TIME_FORMAT" />
+    </el-form-item>
+    <el-form-item label="更新时间" prop="update_at">
+      <el-date-picker v-model="ruleForm.update_at" type="datetime" :format="DATE_TIME_FORMAT" :value-format="DATE_TIME_FORMAT" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">

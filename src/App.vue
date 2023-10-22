@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Hello App!</h1>
+  <!-- <h1>Hello App!</h1> -->
   <p>
     <!--使用 router-link 组件进行导航 -->
     <!--通过传递 `to` 来指定链接 -->

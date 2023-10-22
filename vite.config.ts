@@ -7,7 +7,8 @@ import VueDevTools from "vite-plugin-vue-devtools";
 export default defineConfig({
   plugins: [vue({
     script: {
-      defineModel: true
+      defineModel: true, // 开启defineModel功能
+      propsDestructure: true // 开启props结构响应式
     }
   }), VueDevTools()],
   resolve: {

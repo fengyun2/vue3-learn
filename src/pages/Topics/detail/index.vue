@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import BasicInfo from "./components/basic-info.vue";
 
@@ -86,6 +86,10 @@ if (ids.length) {
     getDetail(id, index);
   }
 }
+
+watch(() => formData, (value) => {
+  console.warn('监听 formData 变化：', value.value)
+},{deep: true})
 </script>
 <template>
   <div class="page">
