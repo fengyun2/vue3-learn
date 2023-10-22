@@ -31,7 +31,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.warn("submit!");
+      console.warn("submit!", ruleForm.value);
     } else {
       console.error("error submit!", fields);
     }
@@ -67,11 +67,11 @@ const resetForm = (formEl: FormInstance | undefined) => {
     <el-form-item label="更新时间" prop="update_at">
       <el-date-picker v-model="ruleForm.update_at" type="datetime" :format="DATE_TIME_FORMAT" :value-format="DATE_TIME_FORMAT" />
     </el-form-item>
-    <el-form-item>
+    <!-- <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)">
         保存
       </el-button>
       <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-    </el-form-item>
+    </el-form-item> -->
   </el-form>
 </template>

@@ -2,6 +2,9 @@
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import BasicInfo from "./components/basic-info.vue";
+import Sheet1 from './components/sheet1.vue';
+import Sheet2 from './components/sheet2.vue';
+import Sheet3 from './components/sheet3.vue';
 
 interface Topic {
   id: string;
@@ -37,10 +40,11 @@ defineOptions({
 })
 
 const route = useRoute();
-const activeNames = ref(["1"]);
+const activeNames = ref(["1","2"]);
+const tabActiveNames = ref("sheet1");
 const idsStr = route.query.ids || "";
 const ids = idsStr ? (idsStr as string).split(",") : [];
-const details = ref<Topics>({} as Topics);
+// const details = ref<Topics>({} as Topics);
 // const topDetail = ref<Topic>({} as Topic);
 // const sheet1Detail = ref<Topic>({} as Topic);
 const formData = ref<IFormData>({
@@ -55,8 +59,8 @@ const getDetail = (id: string, index: number) => {
     .then((res) => res.json())
     .then((res) => {
       if (res.success) {
-        // console.warn(index, id, res.data, " res.data ======>");
-        details.value[id] = structuredClone(res.data);
+        console.warn(index, id, " getDetail ======>");
+        // details.value[id] = structuredClone(res.data);
         switch (index) {
           case 0: {
             formData.value.basicInfo = structuredClone(res.data);
@@ -90,6 +94,10 @@ if (ids.length) {
 watch(() => formData, (value) => {
   console.warn('监听 formData 变化：', value.value)
 },{deep: true})
+
+const submit = () => {
+  console.warn('提交表单：', formData.value)
+}
 </script>
 <template>
   <div class="page">
@@ -98,7 +106,28 @@ watch(() => formData, (value) => {
       <el-collapse-item title="基础信息" name="1">
         <BasicInfo v-model="formData.basicInfo" />
       </el-collapse-item>
-      <el-collapse-item title="明细信息" name="2"> </el-collapse-item>
+      <el-collapse-item title="明细信息" name="2">
+        <el-tabs v-model="tabActiveNames" class="demo-tabs">
+          <el-tab-pane label="Sheet1" name="sheet1">
+            <Sheet1 v-model="formData.sheet1" />
+          </el-tab-pane>
+          <el-tab-pane label="Sheet2" name="sheet2">
+            <Sheet2 v-model="formData.sheet2" />
+          </el-tab-pane>
+          <el-tab-pane label="Sheet3" name="sheet3">
+            <Sheet3 v-model="formData.sheet3" />
+          </el-tab-pane>
+        </el-tabs>
+      </el-collapse-item>
     </el-collapse>
+    <div class="btn">
+      <el-button type="primary" @click="submit">提交</el-button>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.demo-tabs >>> .el-tabs__content {
+  padding: 32px;
+}
+</style>
